@@ -1,7 +1,7 @@
 # MultiTenantApi
-Api build in Asp.net framework web api
+<h2>Api build in Asp.net framework web api</h2>
 
-Multi Tenant application
-Dapper ORM used
-Repository pattern used
-Jwt Authentication is used
+<br>Multi Tenant application
+<br>Dapper ORM used
+<br>Repository pattern used
+<br>Jwt Authentication is used
