@@ -14,8 +14,8 @@ namespace MultiTenantApi.Services
 {
     public static class TokenService
     {
-        //string[] getUrlAddress = HttpContext.Current.Request.Headers["Host"].Split('.');
-        //    tenant = getUrlAddress[0].ToLower();
+        static string[] getUrlAddress = HttpContext.Current.Request.Headers["Host"].Split('.');
+        static string tenant = getUrlAddress[0].ToLower().Contains("localhost") ? "localhost" : getUrlAddress[0].ToLower();
 
         public static readonly byte[] _key = Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings.Get("TokenKey").ToString());
         public static string CreateToken(AppUser user)
@@ -23,7 +23,7 @@ namespace MultiTenantApi.Services
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.GivenName, "TenantName")
+                new Claim("tenant", tenant)
             };
             var creds = new SigningCredentials(new SymmetricSecurityKey(_key), SecurityAlgorithms.HmacSha256);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -39,19 +39,35 @@ namespace MultiTenantApi.Services
 
         public static IPrincipal ValidateToken(string token)
         {
+            AppUser user = new AppUser();
+
             var tokenHandler = new JwtSecurityTokenHandler();
             tokenHandler.ValidateToken(token, new TokenValidationParameters()
             {
                 ValidAlgorithms = new[] { SecurityAlgorithms.HmacSha256 },
-                ValidateAudience = false,
-                ValidateIssuer = false,
+                ValidateAudience = false, 
+                ValidateIssuer = false,  // if true then need to give issuer  as  =>  ValidIssuers = new List<string>{ "host1", "host2" };
                 IssuerSigningKey = new SymmetricSecurityKey(_key),
                 ValidateIssuerSigningKey = true,
                 ValidateLifetime = true
             }, out var securityToken);
 
             var jwtSecurityToken = securityToken as JwtSecurityToken;
-            var identity = new ClaimsIdentity(jwtSecurityToken.Claims.ToString(), "NameId", "GivenName");
+
+            if (jwtSecurityToken != null)
+            {
+                IEnumerable<Claim> claims = jwtSecurityToken.Claims;
+
+                foreach (Claim claim in claims)
+                {
+                    if(claim.Type == "tenant" && claim.Value != tenant)
+                        return new ClaimsPrincipal(new ClaimsIdentity());
+                }
+            }
+
+
+            var identity = new ClaimsIdentity(jwtSecurityToken.Claims.ToString(), "Name", "tenant");
+
             return new ClaimsPrincipal(identity);
         }
 
@@ -60,9 +76,11 @@ namespace MultiTenantApi.Services
             try
             {
                 var token = HttpContext.Current.Request.Headers.Get("Authorization");
-                IPrincipal principle = ValidateToken(token);
-                HttpContext.Current.User = principle;
-
+                if (token != null)
+                {
+                    IPrincipal principle = ValidateToken(token);
+                    HttpContext.Current.User = principle;
+                }
             }
             catch {}
             
