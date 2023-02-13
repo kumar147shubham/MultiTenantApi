@@ -14,12 +14,12 @@ namespace MultiTenantApi.Services
 {
     public static class TokenService
     {
-        static string[] getUrlAddress = HttpContext.Current.Request.Headers["Host"].Split('.');
-        static string tenant = getUrlAddress[0].ToLower().Contains("localhost") ? "localhost" : getUrlAddress[0].ToLower();
-
-        public static readonly byte[] _key = Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings.Get("TokenKey").ToString());
         public static string CreateToken(AppUser user)
         {
+             string[] getUrlAddress = HttpContext.Current.Request.Headers["Host"].Split('.');
+             string tenant = getUrlAddress[0].ToLower().Contains("localhost") ? "localhost" : getUrlAddress[0].ToLower();
+              byte[] _key = Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings.Get(tenant + "." + "TokenKey").ToString());
+
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, user.UserName),
@@ -39,7 +39,9 @@ namespace MultiTenantApi.Services
 
         public static IPrincipal ValidateToken(string token)
         {
-            AppUser user = new AppUser();
+            string[] getUrlAddress = HttpContext.Current.Request.Headers["Host"].Split('.');
+            string tenant = getUrlAddress[0].ToLower().Contains("localhost") ? "localhost" : getUrlAddress[0].ToLower();
+            byte[] _key = Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings.Get(tenant + "." + "TokenKey").ToString());
 
             var tokenHandler = new JwtSecurityTokenHandler();
             tokenHandler.ValidateToken(token, new TokenValidationParameters()
