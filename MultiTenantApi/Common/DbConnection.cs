@@ -8,5 +8,6 @@ namespace MultiTenantApi.Common
     public class DbConnection
     {
         public static string ConnectionName { get; set; }
+        public static string Tenant { get; set; }
     }
 }

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
 using System.Web;
 using Microsoft.IdentityModel.Tokens;
+using MultiTenantApi.Common;
 using MultiTenantApi.Interfaces;
 using MultiTenantApi.Models;
 
@@ -39,8 +41,16 @@ namespace MultiTenantApi.Services
 
         public static IPrincipal ValidateToken(string token)
         {
+            //byte[] _key;
             string[] getUrlAddress = HttpContext.Current.Request.Headers["Host"].Split('.');
             string tenant = getUrlAddress[0].ToLower().Contains("localhost") ? "localhost" : getUrlAddress[0].ToLower();
+
+            //var encryptedValue = ConnectionProvider.ReadResourceValue(tenant + "." + "TokenKey");
+            //using (Aes aes = Aes.Create())
+            //{
+            //     _key = EncryptDecrypt.EncryptStringToBytes((encryptedValue), aes.Key, aes.IV);
+            //}
+
             byte[] _key = Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings.Get(tenant + "." + "TokenKey").ToString());
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -66,7 +76,6 @@ namespace MultiTenantApi.Services
                         return new ClaimsPrincipal(new ClaimsIdentity());
                 }
             }
-
 
             var identity = new ClaimsIdentity(jwtSecurityToken.Claims.ToString(), "Name", "tenant");
 
