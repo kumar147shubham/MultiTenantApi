@@ -9,26 +9,26 @@ namespace MultiTenantApi.Common
 {
     public class ClaimExtension
     {
-        public static ClaimedUser IsValidUser(ClaimsIdentity identity)
-        {
-            if (identity != null)
-            {
-                ClaimedUser claimedUser = new ClaimedUser();
-                IEnumerable<Claim> claims = identity.Claims;
-                string name = claims.Where(p => p.Type == "username").FirstOrDefault()?.Value;
-                string tenant = claims.Where(p => p.Type == "tenant").FirstOrDefault()?.Value;
-                if (name != null && tenant != null)
-                {
+        //public static ClaimedUser IsValidUser(ClaimsIdentity identity)
+        //{
+        //    if (identity != null)
+        //    {
+        //        ClaimedUser claimedUser = new ClaimedUser();
+        //        IEnumerable<Claim> claims = identity.Claims;
+        //        string name = claims.Where(p => p.Type == "username").FirstOrDefault()?.Value;
+        //        string tenant = claims.Where(p => p.Type == "tenant").FirstOrDefault()?.Value;
+        //        if (name != null && tenant != null)
+        //        {
 
-                    claimedUser.UserName = name;
-                    claimedUser.TenantName = tenant;
-                    DbConnection.Tenant = tenant;
-                }
-                else
-                    return null;
-            }
-            return null;
+        //            claimedUser.UserName = name;
+        //            claimedUser.TenantName = tenant;
+        //            DbConnection.Tenant = tenant;
+        //        }
+        //        else
+        //            return null;
+        //    }
+        //    return null;
 
-        }
+        //}
     }
 }

@@ -13,8 +13,7 @@ namespace MultiTenantApi.Common
         private string _connectionString;
         private readonly IConnectionProvider _connectionProvider;
         private readonly IEncryptDecrypt _encryptDecrypt;
-        string[] getUrlAddress = HttpContext.Current.Request.Headers["Host"].Split('.');
-      
+
         public DapperContext(IConnectionProvider connectionProvider, IEncryptDecrypt encryptDecrypt)
         {
             _connectionProvider = connectionProvider;
@@ -29,10 +28,16 @@ namespace MultiTenantApi.Common
 
         public string GetEncryptedValues()
         {
-            string tenant = getUrlAddress[0].ToLower().Contains("localhost") ? "localhost" : getUrlAddress[0].ToLower();
-            
-            if (DbConnection.Tenant != null)  // received from User.Identity
+            string tenant = string.Empty;
+
+            if (DbConnection.Tenant != null)  // received from User.Identity during ValidateToken() in TokenService
                 tenant = DbConnection.Tenant;
+            else
+            {
+                string[] getUrlAddress = HttpContext.Current.Request.Headers["Host"].Split('.');
+                 tenant = getUrlAddress[0].ToLower().Contains("localhost") ? "localhost" : getUrlAddress[0].ToLower();
+            }
+
             var encryptedValue = _connectionProvider.ReadResourceValue(tenant);
             using (Aes aes = Aes.Create())
             {

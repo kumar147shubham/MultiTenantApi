@@ -70,11 +70,11 @@ namespace MultiTenantApi.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to LQM3K5jIIaUFGz6t0SFC1+jqTWKUsxGEoYBe7vvOuhW4USUP/c1unmhratSXFMge.
+        ///   Looks up a localized string similar to 8GSZysd7NkDBQsOfQ2G3XdN+ikhyPteIPPUn/E5bY+d9jZNf/rTwheGPMEto3CqZ.
         /// </summary>
-        internal static string localhost_TokenKey {
+        internal static string localhostTokenKey {
             get {
-                return ResourceManager.GetString("localhost.TokenKey", resourceCulture);
+                return ResourceManager.GetString("localhostTokenKey", resourceCulture);
             }
         }
         
@@ -88,11 +88,11 @@ namespace MultiTenantApi.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BNTw/49ciYikiCjKdBEAkYTDXCeioU0JmOXzaK3hEZ/GmK9FwPaXoPoBNZR5zKFc.
+        ///   Looks up a localized string similar to 8GSZysd7NkDBQsOfQ2G3XdN+ikhyPteIPPUn/E5bY+eKb8WI2zd3htwAbpeb+snL.
         /// </summary>
-        internal static string tenant1_TokenKey {
+        internal static string tenant1TokenKey {
             get {
-                return ResourceManager.GetString("tenant1.TokenKey", resourceCulture);
+                return ResourceManager.GetString("tenant1TokenKey", resourceCulture);
             }
         }
         
@@ -106,11 +106,11 @@ namespace MultiTenantApi.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to gfiMUQJpckIvwtKH/fp2wPsEjAyx+qUiPEBX6TGNfiNnojbdPxE7H4gdKErOAA7c.
+        ///   Looks up a localized string similar to 8GSZysd7NkDBQsOfQ2G3XdN+ikhyPteIPPUn/E5bY+cmQTD4OIsUKUv909q6RlGB.
         /// </summary>
-        internal static string tenant2_TokenKey {
+        internal static string tenant2TokenKey {
             get {
-                return ResourceManager.GetString("tenant2.TokenKey", resourceCulture);
+                return ResourceManager.GetString("tenant2TokenKey", resourceCulture);
             }
         }
     }

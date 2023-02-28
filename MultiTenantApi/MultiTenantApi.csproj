@@ -144,6 +144,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DatabaseScript\site-1.txt" />
+    <Content Include="DatabaseScript\site-2.txt" />
+    <Content Include="DatabaseScript\TestDb.txt" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -194,7 +197,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Resources.resx">

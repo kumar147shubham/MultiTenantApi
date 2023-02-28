@@ -121,24 +121,24 @@
     <value>ToRAFgm0+cdkzLSE5spRV4NGb6zhJMhAC5wC7T1mCQKh0Zy4OjbEItW+6MudqRg6mbhP7dQ9UJc2NzL2rTMk8hCxCLONh/RZpOAI/lgAIAk=</value>
     <comment>localhostConnectionString</comment>
   </data>
-  <data name="localhost.TokenKey" xml:space="preserve">
-    <value>LQM3K5jIIaUFGz6t0SFC1+jqTWKUsxGEoYBe7vvOuhW4USUP/c1unmhratSXFMge</value>
+  <data name="localhostTokenKey" xml:space="preserve">
+    <value>8GSZysd7NkDBQsOfQ2G3XdN+ikhyPteIPPUn/E5bY+d9jZNf/rTwheGPMEto3CqZ</value>
     <comment>localhostTokenKey</comment>
   </data>
   <data name="tenant1" xml:space="preserve">
     <value>ToRAFgm0+cdkzLSE5spRV4NGb6zhJMhAC5wC7T1mCQItPRb8oPAE6G5Iylm7rjioQk0vg1CuYjlvdDg7NhA6hQ/lYWPPkM9B2BmvUjzS0A4=</value>
     <comment>Tenant1ConnectionString</comment>
   </data>
-  <data name="tenant1.TokenKey" xml:space="preserve">
-    <value>BNTw/49ciYikiCjKdBEAkYTDXCeioU0JmOXzaK3hEZ/GmK9FwPaXoPoBNZR5zKFc</value>
+  <data name="tenant1TokenKey" xml:space="preserve">
+    <value>8GSZysd7NkDBQsOfQ2G3XdN+ikhyPteIPPUn/E5bY+eKb8WI2zd3htwAbpeb+snL</value>
     <comment>Tenant1TokenKey</comment>
   </data>
   <data name="tenant2" xml:space="preserve">
     <value>ToRAFgm0+cdkzLSE5spRV4NGb6zhJMhAC5wC7T1mCQL/70LL6oIl4HkU685yPGXBmo4T2uX8UtZJeSqHxk6DSBz12u8EXoDIn9kIbyQ9oMY=</value>
     <comment>Tenant2ConnectionString</comment>
   </data>
-  <data name="tenant2.TokenKey" xml:space="preserve">
-    <value>gfiMUQJpckIvwtKH/fp2wPsEjAyx+qUiPEBX6TGNfiNnojbdPxE7H4gdKErOAA7c</value>
+  <data name="tenant2TokenKey" xml:space="preserve">
+    <value>8GSZysd7NkDBQsOfQ2G3XdN+ikhyPteIPPUn/E5bY+cmQTD4OIsUKUv909q6RlGB</value>
     <comment>Tenant2TokenKey</comment>
   </data>
 </root>

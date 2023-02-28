@@ -14,13 +14,22 @@ using MultiTenantApi.Models;
 
 namespace MultiTenantApi.Services
 {
-    public static class TokenService
+    public class TokenService
     {
         public static string CreateToken(AppUser user)
         {
-             string[] getUrlAddress = HttpContext.Current.Request.Headers["Host"].Split('.');
-             string tenant = getUrlAddress[0].ToLower().Contains("localhost") ? "localhost" : getUrlAddress[0].ToLower();
-              byte[] _key = Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings.Get(tenant + "." + "TokenKey").ToString());
+            string[] getUrlAddress = HttpContext.Current.Request.Headers["Host"].Split('.');
+            string tenant = getUrlAddress[0].ToLower().Contains("localhost") ? "localhost" : getUrlAddress[0].ToLower();
+            byte[] _key;//= Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings.Get(tenant + "." + "TokenKey").ToString());
+                        // 
+            ConnectionProvider cp = new ConnectionProvider();
+            var encryptedValue = cp.ReadResourceValue(tenant + "TokenKey");
+            using (Aes aes = Aes.Create())
+            {
+                EncryptDecrypt ed = new EncryptDecrypt();
+                _key = Encoding.UTF8.GetBytes(ed.DecryptString(encryptedValue));
+            }
+
 
             var claims = new List<Claim>()
             {
@@ -41,17 +50,21 @@ namespace MultiTenantApi.Services
 
         public static IPrincipal ValidateToken(string token)
         {
-            //byte[] _key;
+            byte[] _key;
+            
             string[] getUrlAddress = HttpContext.Current.Request.Headers["Host"].Split('.');
             string tenant = getUrlAddress[0].ToLower().Contains("localhost") ? "localhost" : getUrlAddress[0].ToLower();
 
-            //var encryptedValue = ConnectionProvider.ReadResourceValue(tenant + "." + "TokenKey");
-            //using (Aes aes = Aes.Create())
-            //{
-            //     _key = EncryptDecrypt.EncryptStringToBytes((encryptedValue), aes.Key, aes.IV);
-            //}
+            // 
+            ConnectionProvider cp = new ConnectionProvider();
+            var encryptedValue = cp.ReadResourceValue(tenant + "TokenKey");
+            using (Aes aes = Aes.Create())
+            {
+                EncryptDecrypt ed = new EncryptDecrypt();
+                _key = Encoding.UTF8.GetBytes(ed.DecryptString(encryptedValue));
+            }
 
-            byte[] _key = Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings.Get(tenant + "." + "TokenKey").ToString());
+            //byte[] _key = Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings.Get(tenant + "." + "TokenKey").ToString());
 
             var tokenHandler = new JwtSecurityTokenHandler();
             tokenHandler.ValidateToken(token, new TokenValidationParameters()
@@ -72,7 +85,9 @@ namespace MultiTenantApi.Services
 
                 foreach (Claim claim in claims)
                 {
-                    if(claim.Type == "tenant" && claim.Value != tenant)
+                    if (claim.Type == "tenant" && claim.Value == tenant)
+                        DbConnection.Tenant = claim.Value;
+                    if (claim.Type == "tenant" && claim.Value != tenant)
                         return new ClaimsPrincipal(new ClaimsIdentity());
                 }
             }
